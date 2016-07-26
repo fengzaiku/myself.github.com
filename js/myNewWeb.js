@@ -1,1 +1,189 @@
-define(function(e,t,o){var s=e("moveTween.js").tween,n=e("degMove.js").degMove;t.show=function(){if(window.navigator.userAgent.toLowerCase().indexOf("msie ")!=-1){var e=window.navigator.userAgent.toLowerCase().indexOf("msie "),t=window.navigator.userAgent.toLowerCase();return void(Math.floor(t.substr(e+4,4))<=9&&document.write('<h2>您的浏览器版本不支持此网页<a href="http://download.microsoft.com/download/5/6/F/56FD6253-CB53-4E38-94C6-74367DA2AB34/IE11-Windows6.1-x64-zh-cn.exe">点击升级</a></h2>'))}!function(){var e=$("#fix-header"),t=($("#home-con"),$("#works")),o=($(".planet"),e.find("li")),a=$("#works ul"),i=$("#works li"),c=$("#works p");$(".roto").outerWidth()/2;o.eq(0).addClass("ac"),o.mouseover(function(){o.each(function(){o.removeClass("ac")}),$(this).addClass("ac")}),$(window).scroll(function(){var s=$(window).scrollTop(),n=1-s/500;n<=.5&&(n=.5),e.css("height",120*n),n<.75?t.show(300,function(){o.removeClass("ac"),o.eq(1).addClass("ac")}):t.hide(1e3,function(){o.eq(1).removeClass("ac"),o.eq(0).addClass("ac")})}),i.on("mouseover",function(e){var t=Math.abs(e.clientX-$(this).offset().left),o=Math.abs(e.clientX-$(this).offset().left-$(this).outerWidth()),n=Math.abs(e.clientY-$(this).offset().top),a=Math.abs(e.clientY-($(this).offset().top+$(this).innerHeight())),r=$(this).index(),f=e.fromElement||e.relatedTarget;if(!i.get(r).contains(f)){var l=[t,o,a,n].sort(function(e,t){return e-t});switch(l[0]){case t:c.eq(r).css({left:-200,top:-200});break;case o:c.eq(r).css({left:200,top:-200});break;case n:console.log(1),c.eq(r).css({left:0,top:-400});break;case a:c.eq(r).css({left:0,top:0})}s(c.get(r),{left:0,top:-203})}}),i.on("mouseout",function(e){var t=Math.abs(e.clientX-$(this).offset().left),o=Math.abs(e.clientX-$(this).offset().left-$(this).outerWidth()),n=Math.abs(e.clientY-$(this).offset().top),a=Math.abs(e.clientY-($(this).offset().top+$(this).innerHeight())),r=$(this).index(),f=e.toElement||e.relatedTarget;if(!i.get(r).contains(f)){var l=[t,o,a,n].sort(function(e,t){return e-t});switch(l[0]){case t:s(c.get(r),{left:-200,top:-200});break;case o:s(c.get(r),{left:200,top:-200});break;case n:s(c.get(r),{left:0,top:-400});break;case a:s(c.get(r),{left:0,top:0})}}});var r=!1,f=!0;a.click(function(e){if(f){f=!1;var t=e.srcElement||e.target;t==a.get(0)&&(r?i.each(function(e,t){n(t,0,function(){a.css("marginLeft",-10),s(t,{left:200*e},{end:function(){f=!0}})})}):i.each(function(e,t){n(t,40*e,function(){f=!0})}),r=!r)}})}(),function(){var e=$("#button"),t=$("#hide"),o=$("#layer"),s=$("#layer button"),n=$("#layer img"),a=$("#menu-container a"),i=0,c=0;e.click(function(){c++,t.toggle("slow",function(){c%2==0?e.val("展示"):e.val("隐藏")})}),a.each(function(e,t){t.index=e,t.onclick=function(){i=t.index,o.fadeIn(),n.get(0).src="img/images/gallery/"+(Math.abs(i)%17+1)+".jpg",n.get(0).style.transition="1s ease all"}}),s.click(function(){switch($(this).index()){case 0:i--;break;case 1:o.fadeOut();break;case 2:i++}n.get(0).src="img/images/gallery/"+(Math.abs(i)%17+1)+".jpg"})}()}});
+define(function(require,exports,module){
+    var Tween=require('moveTween.js').tween;
+    var degMove=require('degMove.js').degMove;
+
+    exports.show=function(){
+        if(window.navigator.userAgent.toLowerCase().indexOf('msie ')!=-1){
+            var index=window.navigator.userAgent.toLowerCase().indexOf('msie ');
+            var str=window.navigator.userAgent.toLowerCase();
+
+            if((Math.floor(str.substr(index+4,4)))<=9){
+                document.write('<h2>您的浏览器版本不支持此网页<a href="http://download.microsoft.com/download/5/6/F/56FD6253-CB53-4E38-94C6-74367DA2AB34/IE11-Windows6.1-x64-zh-cn.exe">点击升级</a></h2>');
+            }
+            return;
+        }
+
+        ;(function(){
+            var oFixHed=$('#fix-header');
+            var oHomeCon=$('#home-con');
+            var oWorks=$('#works');
+            var oEm=$('.planet');
+            var aLi=oFixHed.find('li');
+            var oUl=$('#works ul');
+            var aWli=$('#works li');
+            var aP=$('#works p');
+            var R=$('.roto').outerWidth()/2;
+
+            aLi.eq(0).addClass('ac');
+            //导航栏鼠标滑过
+            aLi.mouseover(function(){
+                aLi.each(function(){
+                    aLi.removeClass('ac');
+                });
+                $(this).addClass('ac');
+            });
+
+            //滚轮事件
+            $(window).scroll(function(){
+                var scroT=$(window).scrollTop();
+                var scal=1-scroT/500;
+                (scal<=.5) && (scal=.5);
+                oFixHed.css('height',120*scal);
+
+                scal<.75 ? oWorks.show(300,function(){
+                    aLi.removeClass('ac');
+                    aLi.eq(1).addClass('ac');}):
+                    oWorks.hide(1000,function(){
+                        aLi.eq(1).removeClass('ac');
+                        aLi.eq(0).addClass('ac');
+                    });
+            });
+            //鼠标划过进入方向不一样
+            aWli.on('mouseover',function(ev){
+                var lX=Math.abs(ev.clientX-$(this).offset().left);
+                var rX=Math.abs(ev.clientX-$(this).offset().left-$(this).outerWidth());
+                var tY=Math.abs(ev.clientY-($(this).offset().top));
+                var bY=Math.abs(ev.clientY-($(this).offset().top+$(this).innerHeight()));
+                var num=$(this).index();
+                var Form=ev.fromElement || ev.relatedTarget;
+                if(aWli.get(num).contains(Form)){return};
+
+                var arr=[lX,rX,bY,tY].sort(function(n1,n2){return n1-n2});
+                //console.log(arr);
+                switch(arr[0]){
+                    case lX:
+                        aP.eq(num).css({left:-200,top:-200});
+                        break;
+                    case rX:
+                        aP.eq(num).css({left:200,top:-200});
+                        break;
+                    case tY:
+                        console.log(1);
+                        aP.eq(num).css({left:0,top:-400});
+                        break;
+                    case bY:
+                        aP.eq(num).css({left:0,top:0});
+                        break;
+                }
+                Tween(aP.get(num),{left:0,top:-203});
+            });
+            aWli.on('mouseout',function(ev){
+                var lX=Math.abs(ev.clientX-$(this).offset().left);
+                var rX=Math.abs(ev.clientX-$(this).offset().left-$(this).outerWidth());
+                var tY=Math.abs(ev.clientY-($(this).offset().top));
+                var bY=Math.abs(ev.clientY-($(this).offset().top+$(this).innerHeight()));
+                var num=$(this).index();
+                var to=ev.toElement || ev.relatedTarget;
+                if(aWli.get(num).contains(to)){return};
+
+                var arr=[lX,rX,bY,tY].sort(function(n1,n2){return n1-n2});
+                switch(arr[0]){
+                    case lX:
+                        Tween(aP.get(num),{left:-200,top:-200});
+                        break;
+                    case rX:
+                        Tween(aP.get(num),{left:200,top:-200});
+                        break;
+                    case tY:
+                        Tween(aP.get(num),{left:0,top:-400});
+                        break;
+                    case bY:
+                        Tween(aP.get(num),{left:0,top:0});
+                        break;
+                }
+            })
+
+
+            //圆圈内容 works内容
+            var bSys=false;
+            var fnTr=true;
+                oUl.click(function(ev){
+                    //alert(1);
+                    if(fnTr){
+                        fnTr=false;
+                        var timer=null;
+                        var to=ev.srcElement || ev.target;
+                        //console.log(ev);
+                        if(to!=oUl.get(0)){return};
+                        if(bSys){
+                            aWli.each(function (index,elem){
+                                degMove(elem,0,function(){
+                                    oUl.css('marginLeft',-10);
+                                    Tween(elem,{left:200*index},{end:function(){
+                                        fnTr=true;
+                                    }});
+                                });
+                            });
+                        }else{
+                            aWli.each(function (index,elem){
+                                degMove(elem,180/4.5*index,function(){
+                                    fnTr=true;
+                                });
+                            });
+                        }
+                        bSys=!bSys;
+                    }else{
+                        return;
+                    }
+                });
+
+        })();
+
+        ;(function(){
+            var oBut=$('#button');
+            var oHide=$('#hide');
+            var oLay=$('#layer');
+            var aBut=$('#layer button');
+            var oIm=$('#layer img');
+            //var aLay=$('.overlay');
+            var oFa=$('#menu-container a');
+            var iNum=0;
+            var num=0;
+
+            oBut.click(function(){
+                num++;
+                oHide.toggle('slow',function(){
+                    num%2==0?oBut.val('展示'):oBut.val('隐藏');
+                });
+            });
+
+
+            oFa.each(function(i,obj){
+                obj.index=i;
+
+                obj.onclick=function(){
+                    iNum=obj.index;
+                    oLay.fadeIn();
+                    oIm.get(0).src='img/images/gallery/'+(Math.abs(iNum)%17+1)+'.jpg';
+                    oIm.get(0).style.transition='1s ease all';
+                };
+            });
+
+            aBut.click(function(){
+                switch($(this).index()){
+                    case 0:
+                        iNum--;
+                        break;
+                    case 1:
+                        oLay.fadeOut();
+                        break;
+                    case 2:
+                        iNum++;
+                        break;
+                }
+                oIm.get(0).src='img/images/gallery/'+(Math.abs(iNum)%17+1)+'.jpg';
+            });
+        })();
+
+    };
+});
