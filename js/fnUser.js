@@ -1,3 +1,1 @@
-seajs.use('myNewWeb.js',function(mod){
-    mod.show();
-});
+seajs.use("myNewWeb.js",function(s){s.show()});
