@@ -32,7 +32,7 @@ window.onload=function(){
         for(var i=0;i<aSp.length;i++){
             ;(function(index){
                 timer=setTimeout(function(){
-                    aSp[index].style.backgroundImage='url(../myWeb/img/split/'+iNow%3+'.jpg)';
+                    aSp[index].style.backgroundImage='url(img/split/'+iNow%3+'.jpg)';
                     aSp[index].style.opacity=0;
                     starMove(aSp[index],{opacity:1},{type:Tween.Linear});
                     index==C*R && clearInterval(timer);
